@@ -7,6 +7,7 @@ using namespace std;
 void test1()//了解引用
 {
 	int a = 10;
+	int* p = &a;
 	int& b = a;
 
 	cout << "a.value:" << a << endl;
@@ -73,15 +74,39 @@ void swap(int *left, int *right)//指针传参
 	*right = temp;
 }
 
-int& Add(int a, int b)//引用返回值
+
+//引用返回值
+int& add(int a, int b)//错误地使用引用返回值
 {
-	int ret = a + b;
-	return ret;
+	int sum = a + b;
+	return sum;
+}
+
+int addNormal(int a, int b)//普通的值返回方式
+{
+	int sum = a + b;
+	return sum;
+}
+
+int& getMaxiumNum(int& a, int& b)//正确的引用返回
+{
+	//返回a和b中的较大值，由于a和b是参数引用传入的，所以可以作为引用返回值返回
+	return a > b ? a : b;
+}
+
+void test3()
+{
+	int* p = 0;
+	int& a = *p;
+	int b = 2;
+	//swap(a, b);
 }
 
 int main()
 {
+	test3();
 	int x1 = 5, x2 = 10;
-	test1();
+	add(x1, x2);
+	addNormal(x1, x2);
 	return 0;
 }
