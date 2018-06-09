@@ -1,3 +1,7 @@
+//说明：这个部分代码是为了熟悉c++中各类函数而写的，通过日期类的练习来熟悉
+
+#pragma warning(disable:4996)
+
 #include <iostream>
 #include <assert.h>
 #include <vector>
