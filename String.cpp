@@ -42,6 +42,8 @@ public:
 		{
 			String temp = s;
 			swap(_str, temp._str);
+			_size = temp._size;
+			_capacity = temp._capacity;
 		}
 		return *this;
 	}
@@ -63,6 +65,18 @@ public:
 	String& operator+=(const char* str)
 	{
 		insert(_size, str);
+		return *this;
+	}
+
+	String& operator+=(const String& s)
+	{
+		append(s._str);
+		return *this;
+	}
+
+	String& operator+=(const char ch)
+	{
+		push_back(ch);
 		return *this;
 	}
 
@@ -156,6 +170,11 @@ public:
 		return _size;
 	}
 
+	void reserve(const size_t size)
+	{
+		expand(size);
+	}
+
 	friend ostream& operator<<(ostream& out, String& s);
 private:
 	void expand(size_t size)
@@ -180,34 +199,46 @@ ostream& operator<<(ostream& out, String& s)
 	return out;
 }
 
-int main()
+void testIsert()
 {
 	String s1;
-	String s2 = "hello ";
-	string g,h;
-	
-	//insert测试
 	s1.insert(0, 'h');
-	s1.insert(1, "ello");
-	cout << s1;//输出友元函数测试
+	s1.insert(1, "ello world");
+	cout << s1;
+}
 
-	//+=测试
+void testPushAndPop()
+{
+	String s1 = "hello world";
+	s1.pop_back();
+	cout << s1;
+	s1.push_back('d');
+	cout << s1;
+}
+
+void testOperator()
+{
+	String s1 = "hello";
 	s1 += " world";
 	cout << s1;
 
-	//删除
-	s1.erase(0, 6);
-	cout << s1;
-	
-	//pop_back和push_back测试
-	s1.pop_back();
-	s1.push_back('d');
+	String s2 = "hello";
+	s1 = s2;
 	cout << s1;
 
-	//基本运算符操作重载
-	s2 = s2 + s1;
-	cout << s2;
+	s2 = " worl";
+	s1 += s2;
+	s1 += 'd';
+	cout << s1;
+}
 
+int main()
+{
+
+
+	testOperator();
+
+	//clear测试
 	system("pause");
 	return 0;
 }
