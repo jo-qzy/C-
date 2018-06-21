@@ -359,11 +359,12 @@ public:
 		{
 			length = _size - pos;
 		}
-		char *str = new char[length];
+		char *str = new char[length + 1];
 		for (int i = 0; i < length; i++)
 		{
 			*(str + i) = *(_str + pos + i);
 		}
+		*(str + length) = '\0';
 		String temp = str;
 		delete[] str;
 		return temp;
@@ -380,6 +381,7 @@ public:
 private:
 	void expand(size_t size)
 	{
+		//扩大空间
 		char* temp = new char[size + 1];
 		char* temp_cur = temp;
 		char* _str_cur = _str;
@@ -437,47 +439,60 @@ void testModifiers()
 {
 	String s1 = "hello ";
 	String s2 = "world";
-	s1 += s2;
-	cout << "s1 += s2" << s1 << "  expect->hello world" << endl;
-
-}
-
-void testOperator()
-{
-	//预期输出->hello world
-	String s1 = "hello";
-	s1 += " world";
-	cout << s1;
 	
-	//预期输出->hello
-	String s2 = "hello";
-	s1 = s2;
-	cout << s1;
-	
-	//预期输出->hello world
-	s2 = " worl";
+	//operator+=
 	s1 += s2;
-	s1 += 'd';
-	cout << s1;
-}
-
-void testClearRserveAndSize()
-{
-	//预期输出->空串
-	//预期输出->0
-	//预期输出->1000
-	String s1 = "hello world";
+	cout << "s1 += s2->" << s1 << "  expect->hello world" << endl;
+	
+	//apend
 	s1.clear();
-	s1.reserve(1000);
-	cout << s1;
-	cout << s1.size() << endl;
-	cout << s1.capacity() << endl;
+	s1.append("hello ");
+	s1.append(s2);
+	cout << "append->" << s1 << "  expect->hello world" << endl;
+
+	//pop_back and push_back
+	s1.pop_back();
+	s1.push_back('d');
+	cout << "pop_back and push_back->" << s1 << "  expect->hello world" << endl;
+
+	//insert
+	s1 = s2;
+	s1.insert(0, "hello ");
+	cout << "insert->" << s1 << "  expect->hello world" << endl;
+
+	//erase
+	s1.erase(0, 11);
+	cout << "erase->" << s1 << "  expect->" << endl;
+
+	//replace
+	s1 = "hello";
+	s1.replace(0, 8, "my world");
+	cout << "replace->" << s1 << "  expect->my world" << endl;
+
+	//swap
+	s1.swap(s2);
+	cout << "swap->" << s1 << "  expect->world" << endl;
 }
 
+void testStringOperations()
+{
+	String s1 = "hello world";
+
+	//c_str
+	char* temp = s1.c_str();
+	cout << "c_str->" << temp << "  expect->hello world" << endl;
+
+	//find
+	cout << "find->" << s1.find("ello") << "  expect->1" << endl;
+
+	//substr
+	String s2 = s1.substr(6, 5);
+	cout << "substr->" << s2 << "  expect->world" << endl;
+}
 
 int main()
 {
-	//clear测试
+	testStringOperations();
 	system("pause");
 	return 0;
 }
