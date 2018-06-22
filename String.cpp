@@ -139,6 +139,7 @@ public:
 	{
 		if (pos >= _size)
 		{
+			//超出有效范围，返回'\0'
 			return *(_str + _size);
 		}
 		return *(_str + pos);
