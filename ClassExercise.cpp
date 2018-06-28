@@ -127,6 +127,7 @@ public:
 
     Date operator+(const int day)
     {
+		//获取每个月的天数进行加
         if (day < 0)
         {
             return *this - (-day);
@@ -147,6 +148,7 @@ public:
 
     Date operator-(const int day)
     {
+		//获取每个月前一个月的天数进行减
         if (day < 0)
         {
             return *this + (-day);
@@ -167,6 +169,7 @@ public:
 
     int operator-(const Date& d)
     {
+		//计算日期与日期的差，用小的加加直到天数相同
         int flag = 1;
         Date smaller = d;
         Date bigger = *this;
