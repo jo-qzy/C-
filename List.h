@@ -114,7 +114,7 @@ public:
 			}
 			_size--;
 		}
-		
+
 	}
 
 	void push_back(DataType val)
@@ -146,6 +146,145 @@ public:
 			}
 			_size--;
 		}
+	}
+
+	void insert(size_t pos, DataType val)
+	{
+		Node* cur = _head;
+		for (int i = 0; i < pos; i++)
+		{
+			cur = cur->_next;
+		}
+		Node* tmp = new Node(val);
+		cur->_prev->_next = tmp;
+		tmp->_prev = cur->_prev;
+		tmp->_next = cur;
+		cur->_prev = tmp;
+		if (cur == _head)
+		{
+			if (pos == 0)
+				_head == cur->_prev;
+			else
+				_tail = _tail->_next;
+		}
+		_size++;
+	}
+
+	void erase(size_t pos)
+	{
+		if (_size != 0)
+		{
+			if (_size != 1)
+			{
+				Node* cur = _head;
+				for (int i = 0; i < pos; i++)
+					cur = cur->_next;
+				if (cur == _head)
+					_head = _head->_next;
+				if (cur == _tail)
+					_tail = _tail->_prev;
+				cur->_next->_prev = cur->_prev;
+				cur->_prev->_next = cur->_next;
+				delete cur;
+			}
+			_size--;
+		}
+	}
+
+
+
+	void swap(List& l)
+	{
+		std::swap(_head, l._head);
+		std::swap(_tail, l._tail);
+		std::swap(_size, l._size);
+	}
+
+	void resize(size_t size, DataType val = 0)
+	{
+		if (_size > size)
+		{
+			for (int i = size; i < _size; i++)
+			{
+				pop_back();
+			}
+		}
+		else if (_size < size)
+		{
+			for (int i = _size; i < size; i++)
+			{
+				push_back(val);
+			}
+		}
+	}
+
+	void clear()
+	{
+		for (int i = 0; i < _size; i++)
+		{
+			pop_back();
+		}
+	}
+
+	void remove(DataType val)
+	{
+		Node* cur = _head;
+		for (int i = 0; i < _size; i++)
+		{
+			if (cur->_val == val)
+			{
+				cur = erase(cur);
+				i--;
+			}
+			cur = cur->_next;
+		}
+	}
+
+	void unique()
+	{
+		sort();
+		Node* cur = _head;
+		for (int i = 0; i < _size; i++)
+		{
+			if (cur->_val == cur->_next->_val)
+			{
+				erase(cur->_next);
+				i--;
+			}
+		}
+	}
+
+	void sort()
+	{
+		Node* cur = _head;
+		for (int i = 0; i < _size; i++)
+		{
+			for (int j = 0; j < _size - i - 1; j++)
+			{
+				if (cur->_val > cur->_next->_val)
+					std::swap(cur->_val, cur->_next->_val);
+			}
+		}
+	}
+private:
+	ListNode* erase(ListNode* node)
+	{
+		Node* ret = node->_next;
+		if (_size != 0)
+		{
+			if (_size != 1)
+			{
+				if (node == _head)
+					_head = _head->_next;
+				else if (node == _tail)
+					_tail = _tail->_prev;
+				node->_next->_prev = node->_prev;
+				node->_prev->_next = node->_next;
+				delete node;
+			}
+			_size--;
+		}
+		return ret;
 	}
 private:
 	typedef ListNode Node;
