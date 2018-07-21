@@ -6,6 +6,8 @@ using namespace std;
 
 typedef int DataType;
 
+
+//模拟实现list，但是不使用迭代器，所以不同于list，删除节点使用的是使用pos删除，而不是迭代器
 struct ListNode
 {
 	DataType _val;
