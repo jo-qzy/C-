@@ -1,3 +1,5 @@
+//本代码博客地址：https://blog.csdn.net/Boring_Wednesday/article/details/82990689
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -26,7 +28,6 @@ public:
 				if (check[cur[0] - 'A'][4] == 2)
 					flag.push_back(cur[0] - 'A');
 			}
-			//hash[cur[0] - 'A'] = 1;
 			cur++;
 		}
 		if (tmp.size() >= 4)
