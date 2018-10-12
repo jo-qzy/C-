@@ -122,6 +122,17 @@ public:
 	{
 		return _size;
 	}
+
+	T& back() const
+	{
+		assert(_size > 0);
+		return _data[_size - 1];
+	}
+
+	bool empty()
+	{
+		return _size == 0;
+	}
 private:
 	T* _data;
 	size_t _size;
