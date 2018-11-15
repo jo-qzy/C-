@@ -1,6 +1,6 @@
 struct __true_type
 {
-	bool get()
+	static bool get()
 	{
 		return true;
 	}
@@ -8,7 +8,7 @@ struct __true_type
 
 struct __false_type
 {
-	bool get()
+	static bool get()
 	{
 		return false;
 	}
@@ -40,7 +40,7 @@ T* __my_copy(T* dst, const T* src, size_t size)
 {
 	if (dst == src || dst == nullptr || src == nullptr)
 		return dst;
-	if (__my_type_traits<T>::is_POD_type.get() == true)
+	if (__my_type_traits<T>::is_POD_type::get() == true)
 	{
 		memcpy(dst, src, sizeof(T) * size);
 	}
@@ -59,7 +59,7 @@ T* __my_move(T* dst, const T* src, size_t size)
 {
 	if (dst == src || dst == nullptr || src == nullptr)
 		return dst;
-	if (__my_type_traits<T>::is_POD_type.get() == true)
+	if (__my_type_traits<T>::is_POD_type::get() == true)
 	{
 		memmove(dst, src, sizeof(T) * size);
 	}
