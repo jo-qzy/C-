@@ -28,7 +28,7 @@ class AVLTree
 {
 	typedef AVLTreeNode<K, V> Node;
 public:
-	bool insert(pair<K, V> kv)
+	bool Insert(pair<K, V> kv)
 	{
 		if (_root == nullptr)
 		{
@@ -85,59 +85,62 @@ public:
 			}
 			else if (abs(parent->_bf) == 1)
 			{
-				cur = parent;
+				cur = cur->_parent;
 				parent = cur->_parent;
 			}
-			else if (parent->_bf == 2 && cur->_bf == 1)
+			else if (abs(parent->_bf) == 2)
 			{
-				// 左单旋
-				RotateL(parent);
-				break;
-			}
-			else if (parent->_bf == 2 && cur->_bf == -1)
-			{
-				// 右旋，再左旋
-				Node* subR = cur->_right;
-				Node* subRL = subR->_left;
-				int bf = subRL->_bf;
-
-				RotateR(parent->_right);
-				RotateL(parent);
-
-				if (bf == 1)
+				if (parent->_bf == 2 && cur->_bf == 1)
 				{
-					parent->_bf = -1;
+					// 左单旋
+					RotateL(parent);
+					break;
 				}
-				else
+				else if (parent->_bf == 2 && cur->_bf == -1)
 				{
-					subR->_bf = 1;
-				}
-				break;
-			}
-			else if (parent->_bf == -2 && cur->_bf == -1)
-			{
-				RotateR(parent);
-				break;
-			}
-			else if (parent->_bf == -2 && cur->_bf == 1)
-			{
-				Node* subL = cur->_left;
-				Node* subLR = subL->_right;
-				int bf = subLR->_bf;
+					// 右旋，再左旋
+					Node* subR = parent->_right;
+					Node* subRL = subR->_left;
+					int bf = subRL->_bf;
 
-				RotateL(parent->_left);
-				RotateR(parent);
+					RotateR(parent->_right);
+					RotateL(parent);
 
-				subLR->_bf = 0;
-				if (bf == 1)
-				{
-					parent->_bf = 1;
+					if (bf == 1)
+					{
+						parent->_bf = -1;
+					}
+					else
+					{
+						subR->_bf = 1;
+					}
+					break;
 				}
-				else
+				else if (parent->_bf == -2 && cur->_bf == -1)
 				{
-					subL->_bf = -1;
+					RotateR(parent);
+					break;
 				}
-				break;
+				else if (parent->_bf == -2 && cur->_bf == 1)
+				{
+					Node* subL = parent->_left;
+					Node* subLR = subL->_right;
+					int bf = subLR->_bf;
+
+					RotateL(parent->_left);
+					RotateR(parent);
+
+					subLR->_bf = 0;
+					if (bf == 1)
+					{
+						parent->_bf = 1;
+					}
+					else
+					{
+						subL->_bf = -1;
+					}
+					break;
+				}
 			}
 		}
 		return true;
@@ -189,6 +192,7 @@ private:
 		{
 			// parent为根节点
 			_root = subL;
+			subL->_parent = nullptr;
 		}
 		subL->_right = parent;
 		parent->_parent = subL;
@@ -201,7 +205,7 @@ private:
 		Node* subRL = subR->_left;
 		Node* pparent = parent->_parent;
 
-		parent->_left = subRL;
+		parent->_right = subRL;
 		if (subRL != nullptr)
 		{
 			subRL->_parent = parent;
@@ -221,6 +225,7 @@ private:
 		else
 		{
 			_root = subR;
+			subR->_parent = nullptr;
 		}
 		subR->_left = parent;
 		parent->_parent = subR;
@@ -229,3 +234,14 @@ private:
 private:
 	Node* _root = nullptr; // c++11新特性，相当于默认值给nullptr
 };
+
+void TestAVLTree()
+{
+	int array[] = { 4, 2, 6, 1, 3, 5, 15, 7, 16, 14 };
+	AVLTree<int, int> t;
+	for (auto e : array)
+	{
+		t.Insert(make_pair(e, 0));
+	}
+	t.InOrder();
+}
